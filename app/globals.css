@@ -2,74 +2,70 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Background helpers */
+.bg-neon-grid {
+  background: radial-gradient(ellipse at center, rgba(2,8,20,0.6) 0%, rgba(0,2,15,0.85) 60%), linear-gradient(180deg, rgba(0,0,0,0.15), rgba(0,0,0,0.6));
+  background-blend-mode: overlay;
+}
+
 /* Neon Text */
 .neon-text {
-  color: #ff003c;
+  color: #ff3b6b;
   text-shadow:
-    0 0 5px #ff003c,
-    0 0 10px #ff003c,
-    0 0 20px #ff003c,
-    0 0 40px #ff003c;
+    0 0 6px #ff3b6b,
+    0 0 14px #ff3b6b,
+    0 0 30px #ff3b6b;
 }
 
-/* Glow Border */
-.neon-border {
-  border: 1px solid #00eaff;
-  box-shadow:
-    0 0 10px #00eaff,
-    inset 0 0 10px #00eaff;
+/* Accent cyan */
+.accent-cyan {
+  color: #9be7ff;
+  text-shadow: 0 0 8px #00eaff55;
 }
 
-/* Animated Glow Pulse */
-@keyframes pulseGlow {
-  0% {
-    box-shadow: 0 0 10px #ff003c;
-  }
-  50% {
-    box-shadow: 0 0 25px #ff003c;
-  }
-  100% {
-    box-shadow: 0 0 10px #ff003c;
-  }
-}
-
-.glow-pulse {
-  animation: pulseGlow 2s infinite ease-in-out;
-}
-
-/* Cyberpunk Button */
-.cyber-btn {
-  background: #111;
-  border: 1px solid #ff003c;
-  padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
-  transition: 0.2s ease;
-}
-
-.cyber-btn:hover {
-  background: #ff003c;
-  box-shadow: 0 0 20px #ff003c;
-}
-
-/* Blue Variant */
-.cyber-btn-blue {
-  background: #111;
-  border: 1px solid #00eaff;
-  padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
-  transition: 0.2s ease;
-}
-
-.cyber-btn-blue:hover {
-  background: #00eaff;
-  box-shadow: 0 0 20px #00eaff;
-}
-
-/* Neon Panel */
+/* Panels */
 .neon-panel {
-  background: #020814;
-  border: 1px solid #00eaff88;
-  box-shadow: 0 0 30px #00eaff55;
-  border-radius: 1rem;
+  background: linear-gradient(180deg, rgba(3,6,18,0.85), rgba(2,4,12,0.7));
+  border: 1px solid rgba(0,234,255,0.12);
+  box-shadow: 0 6px 30px rgba(0,234,255,0.06), inset 0 1px 0 rgba(255,255,255,0.02);
+  border-radius: 14px;
   padding: 1rem;
 }
+
+/* Buttons */
+.cyber-btn {
+  background: linear-gradient(180deg, #0b0b0b, #141414);
+  border: 1px solid #ff3b6b;
+  color: white;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(255,59,107,0.08);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.cyber-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(255,59,107,0.14); }
+
+.cyber-btn-cyan {
+  border: 1px solid #00eaff;
+  box-shadow: 0 6px 18px rgba(0,234,255,0.06);
+}
+.cyber-btn-cyan:hover { box-shadow: 0 12px 30px rgba(0,234,255,0.12); }
+
+/* Glow orbs and scanlines */
+.glow-orb {
+  position: absolute;
+  filter: blur(36px);
+  opacity: 0.9;
+  pointer-events: none;
+}
+.scanlines::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 100% 6px;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+/* Small utilities */
+.rounded-xl-2 { border-radius: 1rem; }
