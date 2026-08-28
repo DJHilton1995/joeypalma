@@ -1,95 +1,112 @@
-"use client";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-import Image from "next/image";
-import NeonPanel from "./src/components/NeonPanel";
-import CyberButton from "./src/components/CyberButton";
-
-export default function Home() {
-  return (
-    <main className="min-h-screen relative bg-[#02030a] text-white overflow-hidden scanlines">
-      {/* Background hero image */}
-      <div className="absolute inset-0 -z-10">
-        <Image src="/hero.jpg" alt="Hero" fill className="object-cover opacity-90" priority />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/40 to-black/70" />
-      </div>
-
-      {/* Decorative orbs */}
-      <div className="glow-orb" style={{ left: -120, top: 40, width: 360, height: 360, background: "radial-gradient(circle,#ff3b6b55,transparent 40%)" }} />
-      <div className="glow-orb" style={{ right: -160, bottom: -40, width: 420, height: 420, background: "radial-gradient(circle,#00eaff55,transparent 40%)" }} />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Left hero column */}
-        <div className="lg:col-span-5 space-y-6">
-          <div className="neon-panel rounded-xl-2 p-6">
-            <h1 className="text-2xl font-bold neon-text">MY AI HELPER CENTER</h1>
-            <p className="mt-3 text-sm text-[#9bdcff]">JOEY // CYBER SECURITY AI</p>
-
-            <div className="mt-6 flex items-center gap-4">
-              <div className="w-28 h-28 rounded-full border border-[#ff3b6b33] overflow-hidden shadow-[0_0_30px_#ff3b6b33]">
-                <Image src="/hero.jpg" alt="Joey avatar" width={112} height={112} className="object-cover" />
-              </div>
-
-              <div>
-                <p className="text-sm text-[#ff8aa8] tracking-wider uppercase">JOEY // NEON ARCADE</p>
-                <p className="text-xs text-[#9bdcff] mt-1">Your security assistant and system guardian.</p>
-              </div>
-            </div>
-          </div>
-
-          <NeonPanel title="Quick Actions">
-            <div className="flex flex-col gap-3">
-              <CyberButton onClick={() => alert("Start AI Help")} color="cyan">GET AI HELP</CyberButton>
-              <div className="flex gap-3 mt-2">
-                <CyberButton onClick={() => alert("Ready")} >READY</CyberButton>
-                <CyberButton onClick={() => alert("Settings")} color="cyan">SETTINGS</CyberButton>
-              </div>
-            </div>
-          </NeonPanel>
-        </div>
-
-        {/* Center column */}
-        <div className="lg:col-span-4">
-          <NeonPanel title="Live Status">
-            <div className="flex flex-col gap-3">
-              <div className="p-4 bg-black/30 rounded-lg">
-                <p className="text-sm accent-cyan">SYSTEM STATUS</p>
-                <p className="mt-2 text-xs text-[#9bdcff]">EVERYTHING IS SAFE AND RUNNING WELL.</p>
-              </div>
-              <div className="mt-3">
-                <h4 className="text-sm font-medium accent-cyan">MY SECURITY AI</h4>
-                <p className="text-xs text-[#9bdcff] mt-1">Monitoring network, files, and system integrity.</p>
-              </div>
-            </div>
-          </NeonPanel>
-        </div>
-
-        {/* Right column */}
-        <div className="lg:col-span-3">
-          <NeonPanel title="PAST HELP LOG">
-            <ul className="text-sm text-[#9bdcff] space-y-2">
-              <li>Check on my security.</li>
-              <li>Is my network stable?</li>
-              <li>Block that bad file.</li>
-              <li>Update my security walls.</li>
-            </ul>
-          </NeonPanel>
-        </div>
-      </div>
-
-      {/* Footer small panel */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 pb-10">
-        <div className="neon-panel rounded-xl-2 p-4 mt-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm accent-cyan font-semibold">MY SECURITY AI</p>
-              <p className="text-xs text-[#9bdcff]">Everything is safe and running well.</p>
-            </div>
-            <div>
-              <button className="cyber-btn-cyan cyber-btn">View Details</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
-  );
+/* Base background helpers */
+.bg-neon-grid {
+  background: radial-gradient(ellipse at center, rgba(2,8,20,0.6) 0%, rgba(0,2,15,0.85) 60%), linear-gradient(180deg, rgba(0,0,0,0.15), rgba(0,0,0,0.6));
+  background-blend-mode: overlay;
 }
+
+/* Neon Text */
+.neon-text {
+  color: #ff3b6b;
+  text-shadow:
+    0 0 6px #ff3b6b,
+    0 0 14px #ff3b6b,
+    0 0 30px #ff3b6b;
+}
+
+/* Accent cyan */
+.accent-cyan {
+  color: #9be7ff;
+  text-shadow: 0 0 8px #00eaff55;
+}
+
+/* Panels */
+.neon-panel {
+  background: linear-gradient(180deg, rgba(3,6,18,0.85), rgba(2,4,12,0.7));
+  border: 1px solid rgba(0,234,255,0.12);
+  box-shadow: 0 6px 30px rgba(0,234,255,0.06), inset 0 1px 0 rgba(255,255,255,0.02);
+  border-radius: 14px;
+  padding: 1rem;
+}
+
+/* Buttons */
+.cyber-btn {
+  background: linear-gradient(180deg, #0b0b0b, #141414);
+  border: 1px solid #ff3b6b;
+  color: white;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(255,59,107,0.08);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.cyber-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(255,59,107,0.14); }
+
+.cyber-btn-cyan {
+  border: 1px solid #00eaff;
+  box-shadow: 0 6px 18px rgba(0,234,255,0.06);
+}
+.cyber-btn-cyan:hover { box-shadow: 0 12px 30px rgba(0,234,255,0.12); }
+
+/* Glow orbs and scanlines */
+.glow-orb {
+  position: absolute;
+  filter: blur(36px);
+  opacity: 0.9;
+  pointer-events: none;
+}
+.scanlines::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 100% 6px;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+/* Fingerprint icon animation */
+.fingerprint {
+  width: 48px;
+  height: 48px;
+  display: inline-block;
+  filter: drop-shadow(0 6px 18px rgba(0,234,255,0.08));
+}
+@keyframes pulseFingerprint {
+  0% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.06); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.9; }
+}
+.fingerprint.pulse { animation: pulseFingerprint 2.2s infinite ease-in-out; }
+
+/* Holographic hover effect */
+.holo {
+  position: relative;
+  overflow: hidden;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.holo::before {
+  content: "";
+  position: absolute;
+  inset: -40% -40%;
+  background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(0,234,255,0.06), rgba(255,59,107,0.03));
+  transform: rotate(25deg) translateX(-60%);
+  transition: transform .5s ease;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+.holo:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(0,0,0,0.6); }
+.holo:hover::before { transform: rotate(25deg) translateX(0%); }
+
+/* Floating card animation */
+@keyframes floatY {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0px); }
+}
+.float-slow { animation: floatY 6s ease-in-out infinite; }
+
+/* Small utilities */
+.rounded-xl-2 { border-radius: 1rem; }
