@@ -1,18 +1,16 @@
-import type { Metadata } from "next"
+import "./globals.css";
 
-export const metadata: Metadata = {
-  title: "Joey AI - Smart AI Chatbot",
-  description: "Smart, charismatic AI chatbot companion with secure memory-safe engine",
-}
+export const metadata = {
+  title: "JoeyPalma AI Helper Center",
+  description: "Cyberpunk AI assistant dashboard",
+};
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="bg-[#02030a] text-white min-h-screen">
+        {children}
+      </body>
     </html>
-  )
+  );
 }
