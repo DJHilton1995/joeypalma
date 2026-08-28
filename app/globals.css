@@ -2,11 +2,74 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  scroll-behavior: smooth;
+/* Neon Text */
+.neon-text {
+  color: #ff003c;
+  text-shadow:
+    0 0 5px #ff003c,
+    0 0 10px #ff003c,
+    0 0 20px #ff003c,
+    0 0 40px #ff003c;
 }
 
-body {
-  background-color: #ffffff;
-  color: #000000;
+/* Glow Border */
+.neon-border {
+  border: 1px solid #00eaff;
+  box-shadow:
+    0 0 10px #00eaff,
+    inset 0 0 10px #00eaff;
+}
+
+/* Animated Glow Pulse */
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 10px #ff003c;
+  }
+  50% {
+    box-shadow: 0 0 25px #ff003c;
+  }
+  100% {
+    box-shadow: 0 0 10px #ff003c;
+  }
+}
+
+.glow-pulse {
+  animation: pulseGlow 2s infinite ease-in-out;
+}
+
+/* Cyberpunk Button */
+.cyber-btn {
+  background: #111;
+  border: 1px solid #ff003c;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  transition: 0.2s ease;
+}
+
+.cyber-btn:hover {
+  background: #ff003c;
+  box-shadow: 0 0 20px #ff003c;
+}
+
+/* Blue Variant */
+.cyber-btn-blue {
+  background: #111;
+  border: 1px solid #00eaff;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  transition: 0.2s ease;
+}
+
+.cyber-btn-blue:hover {
+  background: #00eaff;
+  box-shadow: 0 0 20px #00eaff;
+}
+
+/* Neon Panel */
+.neon-panel {
+  background: #020814;
+  border: 1px solid #00eaff88;
+  box-shadow: 0 0 30px #00eaff55;
+  border-radius: 1rem;
+  padding: 1rem;
 }
