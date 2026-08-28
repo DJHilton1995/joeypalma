@@ -1,11 +1,16 @@
-export default function CyberButton({ children, color = "red", onClick }) {
-  const cls =
-    color === "blue"
-      ? "cyber-btn-blue"
-      : "cyber-btn";
+import React from "react";
 
+type Props = {
+  children: React.ReactNode;
+  color?: "pink" | "cyan";
+  onClick?: () => void;
+};
+
+export default function CyberButton({ children, color = "pink", onClick }: Props) {
+  const base = "cyber-btn";
+  const variant = color === "cyan" ? "cyber-btn-cyan" : "";
   return (
-    <button onClick={onClick} className={cls}>
+    <button onClick={onClick} className={`${base} ${variant}`}>
       {children}
     </button>
   );
