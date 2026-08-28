@@ -1,78 +1,94 @@
 "use client";
 
-import { useState } from "react";
-import { callMcp } from "./src/lib/mcpClient";
+import Image from "next/image";
 import NeonPanel from "./src/components/NeonPanel";
 import CyberButton from "./src/components/CyberButton";
 
 export default function Home() {
-  const [output, setOutput] = useState("");
-
-  async function handlePing() {
-    const res = await callMcp("ping");
-    setOutput(JSON.stringify(res, null, 2));
-  }
-
-  async function handleReadFile() {
-    const res = await callMcp("read_file", { path: "test.txt" });
-    setOutput(JSON.stringify(res, null, 2));
-  }
-
   return (
-    <main className="min-h-screen bg-[#02030a] text-white flex items-center justify-center px-4 py-6">
-      <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-[1.2fr_1fr] gap-6">
+    <main className="min-h-screen relative bg-[#02030a] text-white overflow-hidden scanlines">
+      {/* Background hero image */}
+      <div className="absolute inset-0 -z-10">
+        <Image src="/hero.jpg" alt="Hero" fill className="object-cover opacity-90" priority />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/40 to-black/70" />
+      </div>
 
-        {/* LEFT PANEL */}
-        <section className="relative rounded-2xl border border-[#ff003c55] bg-gradient-to-br from-[#050816] via-[#090020] to-[#00101f] p-6 shadow-[0_0_40px_#ff003c55] overflow-hidden">
+      {/* Decorative orbs */}
+      <div className="glow-orb" style={{ left: -120, top: 40, width: 360, height: 360, background: "radial-gradient(circle,#ff3b6b55,transparent 40%)" }} />
+      <div className="glow-orb" style={{ right: -160, bottom: -40, width: 420, height: 420, background: "radial-gradient(circle,#00eaff55,transparent 40%)" }} />
 
-          {/* Glow Orbs */}
-          <div className="absolute inset-0 opacity-20 pointer-events-none">
-            <div className="absolute -left-10 top-10 w-40 h-40 rounded-full bg-[#ff003c] blur-3xl" />
-            <div className="absolute right-0 bottom-0 w-52 h-52 rounded-full bg-[#00eaff] blur-3xl" />
-          </div>
+      <div className="relative z-10 max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Left hero column */}
+        <div className="lg:col-span-5 space-y-6">
+          <div className="neon-panel rounded-xl-2 p-6">
+            <h1 className="text-2xl font-bold neon-text">MY AI HELPER CENTER</h1>
+            <p className="mt-3 text-sm text-[#9bdcff]">JOEY // CYBER SECURITY AI</p>
 
-          {/* Avatar + Title */}
-          <div className="relative flex flex-col md:flex-row items-center gap-6">
-            <div className="flex flex-col items-center gap-3 glow-pulse">
-              <div className="w-32 h-32 rounded-full border border-[#ff003c] bg-[#050816] flex items-center justify-center">
-                <span className="text-xs tracking-[0.25em] text-[#ff8aa8] neon-text">
-                  JOEY
-                </span>
+            <div className="mt-6 flex items-center gap-4">
+              <div className="w-28 h-28 rounded-full border border-[#ff3b6b33] overflow-hidden shadow-[0_0_30px_#ff3b6b33]">
+                <Image src="/hero.jpg" alt="Joey avatar" width={112} height={112} className="object-cover" />
               </div>
-              <div className="text-center">
-                <p className="text-[0.7rem] tracking-[0.3em] text-[#ff8aa8] uppercase">
-                  JOEY // NEON ARCADE
-                </p>
-                <p className="mt-1 text-xs text-[#9bdcff]">
-                  Your personal AI helper center.
-                </p>
+
+              <div>
+                <p className="text-sm text-[#ff8aa8] tracking-wider uppercase">JOEY // NEON ARCADE</p>
+                <p className="text-xs text-[#9bdcff] mt-1">Your security assistant and system guardian.</p>
               </div>
             </div>
+          </div>
 
-            {/* MCP Tools */}
-            <div className="flex-1 space-y-4">
-              <NeonPanel title="MCP Tools">
-                <div className="flex flex-col gap-3">
-                  <CyberButton onClick={handlePing}>
-                    🔮 Ping MCP Server
-                  </CyberButton>
+          <NeonPanel title="Quick Actions">
+            <div className="flex flex-col gap-3">
+              <CyberButton onClick={() => alert("Start AI Help")} color="cyan">GET AI HELP</CyberButton>
+              <div className="flex gap-3 mt-2">
+                <CyberButton onClick={() => alert("Ready")} >READY</CyberButton>
+                <CyberButton onClick={() => alert("Settings")} color="cyan">SETTINGS</CyberButton>
+              </div>
+            </div>
+          </NeonPanel>
+        </div>
 
-                  <CyberButton color="blue" onClick={handleReadFile}>
-                    📁 Read File (test.txt)
-                  </CyberButton>
-                </div>
-              </NeonPanel>
+        {/* Center column */}
+        <div className="lg:col-span-4">
+          <NeonPanel title="Live Status">
+            <div className="flex flex-col gap-3">
+              <div className="p-4 bg-black/30 rounded-lg">
+                <p className="text-sm accent-cyan">SYSTEM STATUS</p>
+                <p className="mt-2 text-xs text-[#9bdcff]">EVERYTHING IS SAFE AND RUNNING WELL.</p>
+              </div>
+              <div className="mt-3">
+                <h4 className="text-sm font-medium accent-cyan">MY SECURITY AI</h4>
+                <p className="text-xs text-[#9bdcff] mt-1">Monitoring network, files, and system integrity.</p>
+              </div>
+            </div>
+          </NeonPanel>
+        </div>
+
+        {/* Right column */}
+        <div className="lg:col-span-3">
+          <NeonPanel title="PAST HELP LOG">
+            <ul className="text-sm text-[#9bdcff] space-y-2">
+              <li>Check on my security.</li>
+              <li>Is my network stable?</li>
+              <li>Block that bad file.</li>
+              <li>Update my security walls.</li>
+            </ul>
+          </NeonPanel>
+        </div>
+      </div>
+
+      {/* Footer small panel */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 pb-10">
+        <div className="neon-panel rounded-xl-2 p-4 mt-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm accent-cyan font-semibold">MY SECURITY AI</p>
+              <p className="text-xs text-[#9bdcff]">Everything is safe and running well.</p>
+            </div>
+            <div>
+              <button className="cyber-btn-cyan cyber-btn">View Details</button>
             </div>
           </div>
-        </section>
-
-        {/* RIGHT PANEL */}
-        <NeonPanel title="MCP Output">
-          <pre className="whitespace-pre-wrap text-sm bg-black/60 p-4 rounded-lg">
-            {output || "No output yet."}
-          </pre>
-        </NeonPanel>
-
+        </div>
       </div>
     </main>
   );
