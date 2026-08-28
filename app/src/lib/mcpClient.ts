@@ -1,16 +1,12 @@
 export async function callMcp(tool: string, params: any = {}) {
-  const res = await fetch("http://127.0.0.1:8080/mcp", {
+  const res = await fetch("/api/mcp", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer super-secure-token"
-    },
-    body: JSON.stringify({
-      id: crypto.randomUUID(),
-      tool,
-      params
-    })
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ tool, params }),
   });
-
-  return await res.json();
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`MCP proxy error: ${res.status} ${text}`);
+  }
+  return res.json();
 }
