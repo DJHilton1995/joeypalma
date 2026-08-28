@@ -10,17 +10,19 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "MCP_URL or MCP_TOKEN not configured" }, { status: 500 });
     }
 
+    const forwardBody = {
+      id: crypto.randomUUID(),
+      tool: body.tool,
+      params: body.params || {},
+    };
+
     const resp = await fetch(MCP_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${MCP_TOKEN}`,
       },
-      body: JSON.stringify({
-        id: crypto.randomUUID(),
-        tool: body.tool,
-        params: body.params || {},
-      }),
+      body: JSON.stringify(forwardBody),
     });
 
     const data = await resp.text();
