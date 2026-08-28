@@ -1,5 +1,4 @@
-// app/src/lib/mcpStream.ts
-export async function streamMcp(tool: string, params: any = {}, onChunk?: (chunk: string) => void) {
+export async function streamMcpStructured(tool: string, params: any = {}, onDelta?: (text: string) => void, onMeta?: (meta: any) => void) {
   const res = await fetch("/api/mcp/stream", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -14,30 +13,52 @@ export async function streamMcp(tool: string, params: any = {}, onChunk?: (chunk
   const reader = res.body?.getReader();
   if (!reader) {
     const text = await res.text();
-    onChunk?.(text);
+    onDelta?.(text);
+    onMeta?.({ finished: true });
     return text;
   }
 
   const decoder = new TextDecoder();
-  let accumulated = "";
+  let buffer = "";
+
   while (true) {
     const { done, value } = await reader.read();
     if (done) break;
-    const chunk = decoder.decode(value, { stream: true });
-    // handle SSE-style "data: ..." lines
-    const lines = chunk.split(/\r?\n/);
-    for (const line of lines) {
-      if (!line) continue;
-      if (line.startsWith("data:")) {
-        const payload = line.replace(/^data:\s*/, "");
-        onChunk?.(payload);
-        accumulated += payload;
-      } else {
-        // raw chunk
-        onChunk?.(line);
-        accumulated += line;
+    buffer += decoder.decode(value, { stream: true });
+
+    const lines = buffer.split(/\r?\n/);
+    buffer = lines.pop() || "";
+
+    for (const raw of lines) {
+      if (!raw.trim()) continue;
+      const line = raw.startsWith("data:") ? raw.replace(/^data:\s*/, "") : raw;
+      try {
+        const obj = JSON.parse(line);
+        if (obj.type === "delta") {
+          onDelta?.(obj.payload?.text || "");
+        } else if (obj.type === "meta") {
+          onMeta?.(obj.payload || {});
+        } else if (obj.type === "error") {
+          onMeta?.({ error: obj.payload?.message || "Unknown error" });
+        } else {
+          onDelta?.(typeof obj === "string" ? obj : JSON.stringify(obj));
+        }
+      } catch {
+        onDelta?.(line);
       }
     }
   }
-  return accumulated;
+
+  if (buffer.trim()) {
+    try {
+      const obj = JSON.parse(buffer);
+      if (obj.type === "meta") onMeta?.(obj.payload || {});
+      else if (obj.type === "delta") onDelta?.(obj.payload?.text || "");
+      else onDelta?.(buffer);
+    } catch {
+      onDelta?.(buffer);
+    }
+  }
+
+  return;
 }
