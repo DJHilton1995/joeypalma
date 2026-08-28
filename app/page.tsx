@@ -20,7 +20,7 @@ export default function Home() {
     <main className="min-h-screen bg-[#02030a] text-white flex items-center justify-center px-4 py-6">
       <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-[1.2fr_1fr] gap-6">
 
-        {/* LEFT: Joey Neon Arcade */}
+        {/* LEFT PANEL — Joey Neon Arcade */}
         <section className="relative rounded-2xl border border-[#ff003c55] bg-gradient-to-br from-[#050816] via-[#090020] to-[#00101f] p-6 shadow-[0_0_40px_#ff003c55] overflow-hidden">
 
           {/* Glow Orbs */}
@@ -68,18 +68,20 @@ export default function Home() {
                     📁 Read File (test.txt)
                   </button>
                 </div>
+
               </div>
             </div>
           </div>
         </section>
 
-        {/* RIGHT: MCP Output */}
+        {/* RIGHT PANEL — MCP Output */}
         <section className="rounded-2xl border border-[#333] bg-black/40 p-6">
           <h2 className="text-xl mb-3">MCP Output</h2>
           <pre className="whitespace-pre-wrap text-sm bg-black/60 p-4 rounded-lg">
             {output || "No output yet."}
           </pre>
         </section>
+
       </div>
     </main>
   );
