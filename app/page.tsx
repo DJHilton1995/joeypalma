@@ -5,24 +5,12 @@ import { useState } from "react";
 import NeonPanel from "./src/components/NeonPanel";
 import CyberButton from "./src/components/CyberButton";
 import Fingerprint from "./src/components/Fingerprint";
+import ChatPanel from "./src/components/ChatPanel";
 import { callMcp } from "./src/lib/mcpClient";
 
 export default function Home() {
   const [output, setOutput] = useState<string>("");
   const [loading, setLoading] = useState(false);
-
-  async function handleGetAiHelp() {
-    try {
-      setLoading(true);
-      setOutput("");
-      const res = await callMcp("start_ai_help", { context: "homepage_request" });
-      setOutput(JSON.stringify(res, null, 2));
-    } catch (err: any) {
-      setOutput(err.message || "Error calling MCP");
-    } finally {
-      setLoading(false);
-    }
-  }
 
   async function handlePing() {
     try {
@@ -67,9 +55,7 @@ export default function Home() {
 
           <NeonPanel title="Quick Actions">
             <div className="flex flex-col gap-3">
-              <CyberButton onClick={handleGetAiHelp} color="cyan">
-                {loading ? "Starting…" : "GET AI HELP"}
-              </CyberButton>
+              <CyberButton onClick={() => { /* ChatPanel handles chat */ }} color="cyan">GET AI HELP</CyberButton>
 
               <div className="flex gap-3 mt-2">
                 <CyberButton onClick={() => alert("Ready")}>READY</CyberButton>
@@ -88,28 +74,7 @@ export default function Home() {
         </div>
 
         <div className="lg:col-span-4">
-          <NeonPanel title="Live Status">
-            <div className="flex flex-col gap-3">
-              <div className="p-4 bg-black/30 rounded-lg">
-                <p className="text-sm accent-cyan">SYSTEM STATUS</p>
-                <p className="mt-2 text-xs text-[#9bdcff]">EVERYTHING IS SAFE AND RUNNING WELL.</p>
-              </div>
-
-              <div className="mt-3">
-                <h4 className="text-sm font-medium accent-cyan">MCP Tools</h4>
-                <div className="mt-2 flex gap-2">
-                  <CyberButton onClick={handlePing}>Ping MCP</CyberButton>
-                </div>
-              </div>
-
-              <div className="mt-4">
-                <h4 className="text-sm font-medium accent-cyan">MCP Output</h4>
-                <pre className="whitespace-pre-wrap text-xs bg-black/40 p-3 rounded mt-2 text-[#9bdcff] max-h-40 overflow-auto">
-                  {output || "No output yet."}
-                </pre>
-              </div>
-            </div>
-          </NeonPanel>
+          <ChatPanel />
         </div>
 
         <div className="lg:col-span-3">
@@ -132,7 +97,7 @@ export default function Home() {
               <p className="text-xs text-[#9bdcff]">Everything is safe and running well.</p>
             </div>
             <div>
-              <button className="cyber-btn cyber-btn-cyan" onClick={() => alert("View details")}>View Details</button>
+              <button className="cyber-btn cyber-btn-cyan" onClick={handlePing}>Ping MCP</button>
             </div>
           </div>
         </div>
