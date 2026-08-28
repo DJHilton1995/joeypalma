@@ -1,11 +1,6 @@
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-/// Every MCP request must include:
-/// - a tool name (validated)
-/// - parameters (validated per tool)
-/// - optional session metadata
-/// - a correlation ID for audit logging
 #[derive(Deserialize, Serialize, Debug)]
 pub struct McpRequest {
     pub id: Uuid,
@@ -16,8 +11,6 @@ pub struct McpRequest {
     pub session: Option<SessionInfo>,
 }
 
-/// Tools are strictly enumerated.
-/// No arbitrary strings = no injection, no spoofing.
 #[derive(Deserialize, Serialize, Debug)]
 #[serde(rename_all = "snake_case")]
 pub enum Tool {
@@ -25,8 +18,6 @@ pub enum Tool {
     ReadFile,
 }
 
-/// Optional metadata about the caller/session.
-/// This is logged but not trusted.
 #[derive(Deserialize, Serialize, Debug)]
 pub struct SessionInfo {
     pub user_agent: Option<String>,
@@ -34,12 +25,6 @@ pub struct SessionInfo {
     pub ip: Option<String>,
 }
 
-/// Standardized server response.
-/// Always includes:
-/// - ok flag
-/// - message
-/// - optional data
-/// - correlation ID (same as request)
 #[derive(Serialize, Debug)]
 pub struct McpResponse {
     pub id: Uuid,
@@ -49,8 +34,6 @@ pub struct McpResponse {
     pub data: Option<serde_json::Value>,
 }
 
-/// Structured error type.
-/// Never leak internal details.
 #[derive(Serialize, Debug)]
 pub struct McpError {
     pub id: Uuid,
