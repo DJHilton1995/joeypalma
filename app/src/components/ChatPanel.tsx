@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { streamMcp } from "../lib/mcpStream";
+import { streamMcpStructured } from "../lib/mcpStream";
 import CyberButton from "./CyberButton";
 
-type Message = { id: string; role: "user" | "assistant"; text: string };
+type Message = { id: string; role: "user" | "assistant"; text: string; meta?: any };
 
 export default function ChatPanel() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -19,7 +19,8 @@ export default function ChatPanel() {
 
   async function send() {
     if (!input.trim()) return;
-    const userMsg: Message = { id: crypto.randomUUID(), role: "user", text: input.trim() };
+    const userText = input.trim();
+    const userMsg: Message = { id: crypto.randomUUID(), role: "user", text: userText };
     pushMessage(userMsg);
     setInput("");
     setLoading(true);
@@ -28,9 +29,13 @@ export default function ChatPanel() {
     pushMessage({ id: assistantId, role: "assistant", text: "" });
 
     try {
-      await streamMcp("chat", { prompt: userMsg.text, history: messages }, (chunk) => {
+      await streamMcpStructured("chat", { prompt: userText, history: messages }, (chunk) => {
         setMessages((prev) =>
           prev.map((m) => (m.id === assistantId ? { ...m, text: m.text + chunk } : m))
+        );
+      }, (meta) => {
+        setMessages((prev) =>
+          prev.map((m) => (m.id === assistantId ? { ...m, meta } : m))
         );
       });
     } catch (err: any) {
@@ -43,6 +48,33 @@ export default function ChatPanel() {
     }
   }
 
+  function renderMeta(meta: any) {
+    if (!meta) return null;
+    const scores = meta.scores || {};
+    return (
+      <div className="mt-2 text-xs text-[#9bdcff]">
+        <div className="flex gap-2 flex-wrap">
+          {["intelligence","complexity","accuracy","validity","humanity"].map((k) => (
+            <div key={k} className="px-2 py-1 bg-black/30 rounded text-[11px]">
+              <div className="font-semibold">{k}</div>
+              <div>{scores[k] ?? "—"}/10</div>
+            </div>
+          ))}
+        </div>
+
+        {meta.reasoning && <div className="mt-2 italic text-[12px]">{meta.reasoning}</div>}
+
+        {meta.sources?.length > 0 && (
+          <ul className="mt-2 space-y-1">
+            {meta.sources.map((s: string, i: number) => (
+              <li key={i}><a href={s} target="_blank" rel="noreferrer" className="underline text-[#9be7ff]">{s}</a></li>
+            ))}
+          </ul>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="neon-panel rounded-xl-2 p-4">
       <h3 className="text-sm font-semibold accent-cyan mb-3">Joey — Live Assistant</h3>
@@ -53,6 +85,7 @@ export default function ChatPanel() {
           <div key={m.id} className={`p-2 rounded ${m.role === "user" ? "bg-black/30 text-[#ff8aa8]" : "bg-black/10 text-[#9bdcff]"}`}>
             <div className="text-xs font-medium">{m.role === "user" ? "You" : "Joey"}</div>
             <div className="text-sm whitespace-pre-wrap mt-1">{m.text}</div>
+            {m.meta && renderMeta(m.meta)}
           </div>
         ))}
         {loading && <div className="text-xs text-[#9bdcff]">Joey is typing…</div>}
