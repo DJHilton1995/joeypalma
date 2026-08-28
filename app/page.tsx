@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { callMcp } from "./src/lib/mcpClient";
+import NeonPanel from "./src/components/NeonPanel";
+import CyberButton from "./src/components/CyberButton";
 
 export default function Home() {
   const [output, setOutput] = useState("");
@@ -20,7 +22,7 @@ export default function Home() {
     <main className="min-h-screen bg-[#02030a] text-white flex items-center justify-center px-4 py-6">
       <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-[1.2fr_1fr] gap-6">
 
-        {/* LEFT PANEL — Joey Neon Arcade */}
+        {/* LEFT PANEL */}
         <section className="relative rounded-2xl border border-[#ff003c55] bg-gradient-to-br from-[#050816] via-[#090020] to-[#00101f] p-6 shadow-[0_0_40px_#ff003c55] overflow-hidden">
 
           {/* Glow Orbs */}
@@ -31,9 +33,11 @@ export default function Home() {
 
           {/* Avatar + Title */}
           <div className="relative flex flex-col md:flex-row items-center gap-6">
-            <div className="flex flex-col items-center gap-3">
-              <div className="w-32 h-32 rounded-full border border-[#ff003c] bg-[#050816] flex items-center justify-center shadow-[0_0_30px_#ff003c]">
-                <span className="text-xs tracking-[0.25em] text-[#ff8aa8]">JOEY</span>
+            <div className="flex flex-col items-center gap-3 glow-pulse">
+              <div className="w-32 h-32 rounded-full border border-[#ff003c] bg-[#050816] flex items-center justify-center">
+                <span className="text-xs tracking-[0.25em] text-[#ff8aa8] neon-text">
+                  JOEY
+                </span>
               </div>
               <div className="text-center">
                 <p className="text-[0.7rem] tracking-[0.3em] text-[#ff8aa8] uppercase">
@@ -45,42 +49,29 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Neon Tablet */}
+            {/* MCP Tools */}
             <div className="flex-1 space-y-4">
-              <div className="rounded-xl border border-[#00eaff88] bg-[#020814] p-4 shadow-[0_0_30px_#00eaff55]">
-
-                <h2 className="text-lg font-semibold mb-3 text-[#9bdcff]">
-                  MCP Tools
-                </h2>
-
+              <NeonPanel title="MCP Tools">
                 <div className="flex flex-col gap-3">
-                  <button
-                    onClick={handlePing}
-                    className="px-4 py-2 rounded-lg bg-[#111] border border-[#ff003c] hover:bg-[#ff003c] transition-all"
-                  >
+                  <CyberButton onClick={handlePing}>
                     🔮 Ping MCP Server
-                  </button>
+                  </CyberButton>
 
-                  <button
-                    onClick={handleReadFile}
-                    className="px-4 py-2 rounded-lg bg-[#111] border border-[#00eaff] hover:bg-[#00eaff] transition-all"
-                  >
+                  <CyberButton color="blue" onClick={handleReadFile}>
                     📁 Read File (test.txt)
-                  </button>
+                  </CyberButton>
                 </div>
-
-              </div>
+              </NeonPanel>
             </div>
           </div>
         </section>
 
-        {/* RIGHT PANEL — MCP Output */}
-        <section className="rounded-2xl border border-[#333] bg-black/40 p-6">
-          <h2 className="text-xl mb-3">MCP Output</h2>
+        {/* RIGHT PANEL */}
+        <NeonPanel title="MCP Output">
           <pre className="whitespace-pre-wrap text-sm bg-black/60 p-4 rounded-lg">
             {output || "No output yet."}
           </pre>
-        </section>
+        </NeonPanel>
 
       </div>
     </main>
