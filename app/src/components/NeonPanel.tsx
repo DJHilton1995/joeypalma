@@ -1,11 +1,9 @@
-export default function NeonPanel({ title, children }) {
+import React from "react";
+
+export default function NeonPanel({ title, children }: { title?: string; children: React.ReactNode }) {
   return (
-    <div className="neon-panel">
-      {title && (
-        <h2 className="text-lg font-semibold mb-3 text-[#9bdcff]">
-          {title}
-        </h2>
-      )}
+    <div className="neon-panel rounded-xl-2">
+      {title && <h3 className="text-sm font-semibold accent-cyan mb-3">{title}</h3>}
       {children}
     </div>
   );
