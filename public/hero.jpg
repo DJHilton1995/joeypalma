@@ -1,1 +1,6 @@
-
+<Image
+  src="/hero.jpg"
+  alt="JoeyPalma Neon Hero"
+  fill
+  className="object-cover"
+/>
