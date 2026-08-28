@@ -1,0 +1,49 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- Background Space (Dark Purple) -->
+    <path android:fillColor="#0B0215" android:pathData="M0,0 h108 v108 h-108 z"/>
+    
+    <!-- Cyber Sunset (Magenta to Yellow) -->
+    <path android:pathData="M54,20 A30,30 0 1,1 53.9,20">
+        <aapt:attr name="android:fillColor">
+            <gradient 
+                android:startX="54" android:startY="20" 
+                android:endX="54" android:endY="80" 
+                android:type="linear">
+                <item android:offset="0.0" android:color="#FF007F" />
+                <item android:offset="0.5" android:color="#FF4500" />
+                <item android:offset="1.0" android:color="#FFD700" />
+            </gradient>
+        </aapt:attr>
+    </path>
+    
+    <!-- Sunset horizontal cuts -->
+    <path android:fillColor="#0B0215" android:pathData="M24,56 h60 v2 h-60 z M24,62 h60 v2.5 h-60 z M24,68 h60 v3 h-60 z M24,75 h60 v4 h-60 z M24,83 h60 v6 h-60 z" />
+
+    <!-- Synthwave Grid (Cyan) -->
+    <!-- Perspective horizontal lines -->
+    <path android:strokeColor="#00F5FF" android:strokeWidth="0.5" android:pathData="M0,80 L108,80" />
+    <path android:strokeColor="#00F5FF" android:strokeWidth="0.8" android:pathData="M0,86 L108,86" />
+    <path android:strokeColor="#00F5FF" android:strokeWidth="1.2" android:pathData="M0,94 L108,94" />
+    <path android:strokeColor="#00F5FF" android:strokeWidth="2.0" android:pathData="M0,104 L108,104" />
+    
+    <!-- Perspective vertical lines originating from center horizon (54, 80) -->
+    <path android:strokeColor="#00F5FF" android:strokeWidth="1" android:pathData="M54,80 L54,108 M54,80 L34,108 M54,80 L74,108 M54,80 L14,108 M54,80 L94,108 M54,80 L-10,108 M54,80 L118,108" />
+
+    <!-- Sexy Glowing J Silhouette -->
+    <!-- Outer Glow -->
+    <path android:strokeColor="#4DFF007F" android:strokeWidth="6" android:strokeLineCap="round" android:strokeLineJoin="round" android:pathData="M64,30 L64,65 C64,75 44,75 44,65" />
+    <!-- Inner Neon line -->
+    <path android:strokeColor="#FFFFFF" android:strokeWidth="3" android:strokeLineCap="round" android:strokeLineJoin="round" android:pathData="M64,30 L64,65 C64,75 44,75 44,65" />
+    <!-- Cyberpunk Accents around J -->
+    <path android:strokeColor="#00F5FF" android:strokeWidth="1.5" android:strokeLineCap="round" android:pathData="M70,30 L70,40 M38,65 L38,60" />
+
+    <!-- Border Ring (Cyan and Pink) -->
+    <path android:strokeColor="#00F5FF" android:strokeWidth="2" android:pathData="M54,4 A50,50 0 1,1 53.9,4" />
+    <path android:strokeColor="#FF007F" android:strokeWidth="1" android:pathData="M54,6 A48,48 0 1,1 53.9,6" />
+</vector>

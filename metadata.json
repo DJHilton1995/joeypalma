@@ -1,0 +1,6 @@
+{
+  "name": "Joey AI",
+  "description": "Smart, charismatic AI chatbot companion with secure memory-safe engine and multi-persona reasoning.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
