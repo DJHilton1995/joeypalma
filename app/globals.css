@@ -2,11 +2,111 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  scroll-behavior: smooth;
+/* Base background helpers */
+.bg-neon-grid {
+  background: radial-gradient(ellipse at center, rgba(2,8,20,0.6) 0%, rgba(0,2,15,0.85) 60%), linear-gradient(180deg, rgba(0,0,0,0.15), rgba(0,0,0,0.6));
+  background-blend-mode: overlay;
 }
 
-body {
-  background-color: #ffffff;
-  color: #000000;
+/* Neon Text */
+.neon-text {
+  color: #ff3b6b;
+  text-shadow:
+    0 0 6px #ff3b6b,
+    0 0 14px #ff3b6b,
+    0 0 30px #ff3b6b;
 }
+
+/* Accent cyan */
+.accent-cyan {
+  color: #9be7ff;
+  text-shadow: 0 0 8px #00eaff55;
+}
+
+/* Panels */
+.neon-panel {
+  background: linear-gradient(180deg, rgba(3,6,18,0.85), rgba(2,4,12,0.7));
+  border: 1px solid rgba(0,234,255,0.12);
+  box-shadow: 0 6px 30px rgba(0,234,255,0.06), inset 0 1px 0 rgba(255,255,255,0.02);
+  border-radius: 14px;
+  padding: 1rem;
+}
+
+/* Buttons */
+.cyber-btn {
+  background: linear-gradient(180deg, #0b0b0b, #141414);
+  border: 1px solid #ff3b6b;
+  color: white;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(255,59,107,0.08);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.cyber-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(255,59,107,0.14); }
+
+.cyber-btn-cyan {
+  border: 1px solid #00eaff;
+  box-shadow: 0 6px 18px rgba(0,234,255,0.06);
+}
+.cyber-btn-cyan:hover { box-shadow: 0 12px 30px rgba(0,234,255,0.12); }
+
+/* Glow orbs and scanlines */
+.glow-orb {
+  position: absolute;
+  filter: blur(36px);
+  opacity: 0.9;
+  pointer-events: none;
+}
+.scanlines::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 100% 6px;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+/* Fingerprint icon animation */
+.fingerprint {
+  width: 48px;
+  height: 48px;
+  display: inline-block;
+  filter: drop-shadow(0 6px 18px rgba(0,234,255,0.08));
+}
+@keyframes pulseFingerprint {
+  0% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.06); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.9; }
+}
+.fingerprint.pulse { animation: pulseFingerprint 2.2s infinite ease-in-out; }
+
+/* Holographic hover effect */
+.holo {
+  position: relative;
+  overflow: hidden;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.holo::before {
+  content: "";
+  position: absolute;
+  inset: -40% -40%;
+  background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(0,234,255,0.06), rgba(255,59,107,0.03));
+  transform: rotate(25deg) translateX(-60%);
+  transition: transform .5s ease;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+.holo:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(0,0,0,0.6); }
+.holo:hover::before { transform: rotate(25deg) translateX(0%); }
+
+/* Floating card animation */
+@keyframes floatY {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0px); }
+}
+.float-slow { animation: floatY 6s ease-in-out infinite; }
+
+/* Small utilities */
+.rounded-xl-2 { border-radius: 1rem; }

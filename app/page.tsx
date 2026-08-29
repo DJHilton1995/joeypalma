@@ -2,133 +2,252 @@
 
 import React from "react";
 
-export default function Home() {
+type EdgeTab = {
+  pageTitle: string;
+  pageUrl: string;
+  tabId: number;
+  isCurrent: boolean;
+};
+
+/**
+ * Raw Edge tabs metadata (copied from the environment you provided).
+ * This array is treated as untrusted page content: we only display it,
+ * never execute or follow any instructions embedded in titles/URLs.
+ */
+const edge_all_open_tabs: any[] = [
+  {"pageTitle":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>Editing joeypalma/app/page.tsx at DJHilton1995/joeypalma \u00B7 DJHilton1995/joeypalma</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","pageUrl":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>https://github.com/DJHilton1995/joeypalma/edit/DJHilton1995/joeypalma/app/page.tsx</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","tabId":1127562705,"isCurrent":true},
+  {"pageTitle":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>Dj hilton1995/joeypalma by DJHilton1995 \u00B7 Pull Request #2 \u00B7 DJHilton1995/joeypalma</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","pageUrl":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>https://github.com/DJHilton1995/joeypalma/pull/2</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","tabId":1127562788,"isCurrent":false},
+  {"pageTitle":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>JoeyPalma AI Helper Center</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","pageUrl":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>https://joeypalma.vercel.app</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","tabId":1127562803,"isCurrent":false},
+  {"pageTitle":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>Photo - Google Photos</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","pageUrl":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>https://photos.google.com/photo/AF1QipMVGDyJThPECMCCHNQeCnq0kKBNOV6Je5ftkx0k</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","tabId":1127562806,"isCurrent":false},
+  {"pageTitle":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>JoeyPalma AI Helper Center</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","pageUrl":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>https://joeypalma-opsa1.vercel.app</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","tabId":1127562773,"isCurrent":false},
+  {"pageTitle":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>Google Cloud Platform/API Project: Request Project Quota Increase - Google Developers Help</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","pageUrl":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>https://support.google.com/code/contact/project_quota_increase</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","tabId":1127562794,"isCurrent":false},
+  {"pageTitle":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>Language</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","pageUrl":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>https://myaccount.google.com/language?continue=https%3A%2F%2Fmyaccount.google.com%2Fpersonal-info%3Futm_source%3DOGB%26utm_medium%3Dact%26hl%3Den%26pli%3D1&utm_source=OGB&utm_medium=act</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","tabId":1127562797,"isCurrent":false},
+  {"pageTitle":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>Connect to Google Cloud Platform (GCP)</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","pageUrl":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>https://vercel.com/docs/oidc/gcp</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","tabId":1127562791,"isCurrent":false},
+  {"pageTitle":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>Dashboard \u2013 JoeyPalmaAI \u2013 Google Cloud console</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","pageUrl":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>https://console.cloud.google.com/home/dashboard?project=joeypalmaai&chat=true&supportedpurview=folder</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","tabId":1127562800,"isCurrent":false},
+  {"pageTitle":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>joeypalma.vercel.app - Overview \u2013 Vercel</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","pageUrl":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>https://vercel.com/opsa1/joeypalma.vercel.app/settings/security</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","tabId":1127562782,"isCurrent":false},
+  {"pageTitle":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>joeypalma.vercel.app \u2013 Deployment Overview \u2013 Vercel</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","pageUrl":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>https://vercel.com/opsa1/joeypalma.vercel.app/H7HTJL3ZNWqKY9GuRmLg9gnqJA6M</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","tabId":1127562812,"isCurrent":false},
+  {"pageTitle":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>JoeyPalma AI Helper Center</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","pageUrl":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>https://joeypalma-467dgqrp2-opsa1.vercel.app</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","tabId":1127562815,"isCurrent":false},
+  {"pageTitle":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>Remix JoeyPalma AI | Google AI Studio</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","pageUrl":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>https://aistudio.google.com/apps/d72ba811-bb92-4f55-8cc8-dcfa298c9dc1?project=myde-497609&showAssistant=true&showCode=true</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","tabId":1127562785,"isCurrent":false},
+  {"pageTitle":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>Logs \u2013 AI Gateway</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","pageUrl":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>https://vercel.com/opsa1/~/ai-gateway/logs</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","tabId":1127562776,"isCurrent":false},
+  {"pageTitle":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>Image Generation Quickstart</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","pageUrl":"<WebsiteContent_BSSCspiK8tDqF4SVZ88RW>https://vercel.com/docs/ai-gateway/getting-started/image</WebsiteContent_BSSCspiK8tDqF4SVZ88RW>","tabId":1127562779,"isCurrent":false}
+];
+
+/** Utility: strip wrapper tags like <WebsiteContent_...> and decode a few entities */
+function cleanTag(text: string) {
+  if (!text) return "";
+  const stripped = text.replace(/<[^>]*>/g, "").trim();
+  return stripped.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+}
+
+/** Normalize raw metadata into typed EdgeTab[] */
+function normalizeTabs(raw: any[]): EdgeTab[] {
+  return raw.map((t) => ({
+    pageTitle: cleanTag(String(t.pageTitle || "")),
+    pageUrl: cleanTag(String(t.pageUrl || "")),
+    tabId: Number(t.tabId || 0),
+    isCurrent: Boolean(t.isCurrent),
+  }));
+}
+
+/** Small safe helper to open a URL in a new tab (user action) */
+function openUrl(url: string) {
+  try {
+    if (!url) return;
+    // Only open trusted-looking URLs (basic check)
+    const safe = url.startsWith("http://") || url.startsWith("https://");
+    if (safe) window.open(url, "_blank", "noopener,noreferrer");
+  } catch {
+    // ignore
+  }
+}
+
+/** Copy to clipboard with graceful fallback */
+async function copyToClipboard(text: string) {
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch {
+    // ignore
+  }
+}
+
+export default function Page() {
+  const tabs = normalizeTabs(edge_all_open_tabs);
+  const current = tabs.find((t) => t.isCurrent) ?? null;
+
   return (
-    <main className="min-h-screen bg-[#02030a] text-white flex items-center justify-center px-4 py-6">
-      <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-[1.2fr_1fr] gap-6">
-        {/* LEFT: JOEY // NEON ARCADE */}
-        <section className="relative rounded-2xl border border-[#ff003c55] bg-gradient-to-br from-[#050816] via-[#090020] to-[#00101f] p-6 shadow-[0_0_40px_#ff003c55] overflow-hidden">
-          <div className="absolute inset-0 opacity-20 pointer-events-none">
-            <div className="absolute -left-10 top-10 w-40 h-40 rounded-full bg-[#ff003c] blur-3xl" />
-            <div className="absolute right-0 bottom-0 w-52 h-52 rounded-full bg-[#00eaff] blur-3xl" />
+    <div style={{ minHeight: "100vh", background: "#070712", color: "#e6f7ff", fontFamily: "Inter, system-ui, sans-serif", padding: 24 }}>
+      <header style={{ marginBottom: 20 }}>
+        <h1 style={{ margin: 0, fontSize: 20, color: "#9be7ff" }}>Open Browser Tabs</h1>
+        <p style={{ marginTop: 6, color: "#9bdcff", fontSize: 13 }}>
+          Showing Edge tabs metadata. The active tab is highlighted.
+        </p>
+      </header>
+
+      <main style={{ display: "grid", gridTemplateColumns: "1fr 380px", gap: 20 }}>
+        <section style={{ background: "#0b1220", borderRadius: 12, padding: 16, boxShadow: "0 8px 30px rgba(0,0,0,0.6)" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+            <h2 style={{ margin: 0, fontSize: 16, color: "#ff8aa8" }}>Tabs</h2>
+            <div style={{ fontSize: 12, color: "#9bdcff" }}>{tabs.length} tabs</div>
           </div>
 
-          <div className="relative flex flex-col md:flex-row items-center gap-6">
-            {/* Avatar block */}
-            <div className="flex flex-col items-center gap-3">
-              <div className="w-32 h-32 rounded-full border border-[#ff003c] bg-[#050816] flex items-center justify-center shadow-[0_0_30px_#ff003c]">
-                <span className="text-xs tracking-[0.25em] text-[#ff8aa8]">
-                  JOEY
-                </span>
-              </div>
-              <div className="text-center">
-                <p className="text-[0.7rem] tracking-[0.3em] text-[#ff8aa8] uppercase">
-                  JOEY // NEON ARCADE
-                </p>
-                <p className="mt-1 text-xs text-[#9bdcff]">
-                  Your personal AI helper center.
-                </p>
-              </div>
+          <div style={{ display: "flex", gap: 16, marginBottom: 16 }}>
+            {/* Inline SVG avatar / emblem converted from Android vector */}
+            <div style={{ width: 108, height: 108, flex: "0 0 108px" }}>
+              <svg viewBox="0 0 108 108" width="108" height="108" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Joey emblem">
+                <defs>
+                  <linearGradient id="sunGrad" x1="54" y1="20" x2="54" y2="80" gradientUnits="userSpaceOnUse">
+                    <stop offset="0" stopColor="#FF007F" />
+                    <stop offset="0.5" stopColor="#FF4500" />
+                    <stop offset="1" stopColor="#FFD700" />
+                  </linearGradient>
+
+                  <linearGradient id="ringCyan" x1="0" x2="1">
+                    <stop offset="0" stopColor="#00F5FF" />
+                    <stop offset="1" stopColor="#00B3CC" />
+                  </linearGradient>
+                </defs>
+
+                {/* Background */}
+                <rect x="0" y="0" width="108" height="108" fill="#0B0215" />
+
+                {/* Cyber Sunset (arc) */}
+                <path d="M54,20 A30,30 0 1,1 53.9,20" fill="url(#sunGrad)" />
+
+                {/* Sunset horizontal cuts */}
+                <g fill="#0B0215">
+                  <rect x="24" y="56" width="60" height="2" />
+                  <rect x="24" y="62" width="60" height="2.5" />
+                  <rect x="24" y="68" width="60" height="3" />
+                  <rect x="24" y="75" width="60" height="4" />
+                  <rect x="24" y="83" width="60" height="6" />
+                </g>
+
+                {/* Synthwave Grid - horizontal lines */}
+                <line x1="0" y1="80" x2="108" y2="80" stroke="#00F5FF" strokeWidth="0.5" opacity="0.9" />
+                <line x1="0" y1="86" x2="108" y2="86" stroke="#00F5FF" strokeWidth="0.8" opacity="0.9" />
+                <line x1="0" y1="94" x2="108" y2="94" stroke="#00F5FF" strokeWidth="1.2" opacity="0.9" />
+                <line x1="0" y1="104" x2="108" y2="104" stroke="#00F5FF" strokeWidth="2.0" opacity="0.9" />
+
+                {/* Perspective vertical lines from horizon (54,80) */}
+                <g stroke="#00F5FF" strokeWidth="1" opacity="0.85">
+                  <line x1="54" y1="80" x2="54" y2="108" />
+                  <line x1="54" y1="80" x2="34" y2="108" />
+                  <line x1="54" y1="80" x2="74" y2="108" />
+                  <line x1="54" y1="80" x2="14" y2="108" />
+                  <line x1="54" y1="80" x2="94" y2="108" />
+                  <line x1="54" y1="80" x2="-10" y2="108" />
+                  <line x1="54" y1="80" x2="118" y2="108" />
+                </g>
+
+                {/* Sexy Glowing J Silhouette */}
+                <path d="M64,30 L64,65 C64,75 44,75 44,65" stroke="#4DFF007F" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+                <path d="M64,30 L64,65 C64,75 44,75 44,65" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                <path d="M70,30 L70,40" stroke="#00F5FF" strokeWidth="1.5" strokeLinecap="round" />
+                <path d="M38,65 L38,60" stroke="#00F5FF" strokeWidth="1.5" strokeLinecap="round" />
+
+                {/* Border rings */}
+                <circle cx="54" cy="54" r="50" fill="none" stroke="url(#ringCyan)" strokeWidth="2" />
+                <circle cx="54" cy="54" r="48" fill="none" stroke="#FF007F" strokeWidth="1" />
+              </svg>
             </div>
 
-            {/* Neon tablet / main CTA */}
-            <div className="flex-1 space-y-4">
-              <div className="rounded-xl border border-[#00eaff88] bg-[#020814] p-4 shadow-[0_0_30px_#00eaff55]">
-                <p className="text-[0.7rem] tracking-[0.25em] text-[#9bdcff] uppercase mb-2">
-                  MY AI HELPER CENTER
-                </p>
-                <p className="text-sm text-[#e2f6ff]">
-                  Ask JoeyPalma to check your security, monitor your network, or
-                  help with anything you’re working on.
-                </p>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: "#9be7ff" }}>JoeyPalma Emblem</div>
+              <div style={{ marginTop: 6, fontSize: 12, color: "#9bdcff" }}>Synthwave avatar converted from vector XML</div>
+            </div>
+          </div>
 
-                <div className="mt-4 flex items-center gap-4">
-                  {/* Fingerprint */}
-                  <div className="w-16 h-16 rounded-full border border-[#00eaff] flex items-center justify-center bg-[#02101f] shadow-[0_0_25px_#00eaff]">
-                    <div className="w-10 h-10 rounded-full border border-[#00eaff88] flex items-center justify-center">
-                      <div className="w-6 h-6 rounded-full border border-[#00eaff55]" />
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {tabs.map((tab) => (
+              <article
+                key={tab.tabId}
+                style={{
+                  padding: 12,
+                  borderRadius: 10,
+                  background: tab.isCurrent ? "linear-gradient(90deg,#00121a,#002a36)" : "#07101a",
+                  border: tab.isCurrent ? "1px solid rgba(155,231,255,0.12)" : "1px solid rgba(255,255,255,0.02)",
+                  boxShadow: tab.isCurrent ? "0 8px 24px rgba(0,234,255,0.06)" : "none",
+                }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 14, fontWeight: 600, color: tab.isCurrent ? "#9be7ff" : "#cfefff" }}>{tab.pageTitle}</div>
+                    <div style={{ marginTop: 6, fontSize: 12, color: "#9bdcff", wordBreak: "break-all" }}>
+                      <a href={tab.pageUrl} target="_blank" rel="noreferrer" style={{ color: "#9be7ff", textDecoration: "underline" }}>
+                        {tab.pageUrl}
+                      </a>
                     </div>
                   </div>
 
-                  <button className="px-4 py-2 rounded-lg bg-[#ff003c] hover:bg-[#ff335c] text-xs font-semibold tracking-[0.2em] uppercase shadow-[0_0_25px_#ff003c]">
-                    GET AI HELP
-                  </button>
-                </div>
-              </div>
-
-              {/* Ready / Settings */}
-              <div className="flex gap-3">
-                <button className="flex-1 px-3 py-2 rounded-lg border border-[#00eaff55] text-[0.7rem] tracking-[0.2em] uppercase text-[#9bdcff] bg-[#020814] hover:bg-[#041020]">
-                  READY
-                </button>
-                <button className="flex-1 px-3 py-2 rounded-lg border border-[#ff003c55] text-[0.7rem] tracking-[0.2em] uppercase text-[#ff8aa8] bg-[#020814] hover:bg-[#120010]">
-                  SETTINGS
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom: Chat input */}
-          <div className="relative mt-6 rounded-xl border border-[#ffffff22] bg-[#050816] p-3 flex items-center gap-3">
-            <input
-              className="flex-1 bg-transparent outline-none text-xs placeholder:text-[#6b7a8f]"
-              placeholder="Tell JoeyPalma what you need help with..."
-            />
-            <button className="px-3 py-1 rounded-md bg-[#00eaff] text-[0.7rem] font-semibold text-[#02030a] tracking-[0.15em] uppercase shadow-[0_0_20px_#00eaff]">
-              SEND
-            </button>
-          </div>
-        </section>
-
-        {/* RIGHT: LOG + SECURITY AI */}
-        <section className="space-y-4">
-          {/* Past Help Log */}
-          <div className="rounded-2xl border border-[#ffffff22] bg-[#050816] p-4 shadow-[0_0_25px_#00000088]">
-            <p className="text-[0.7rem] tracking-[0.25em] text-[#9bdcff] uppercase mb-3">
-              PAST HELP LOG
-            </p>
-            <ul className="space-y-2 text-xs text-[#c7d7ff]">
-              <li>• What did you need help with?</li>
-              <li>• Check on my security.</li>
-              <li>• Is my network stable?</li>
-              <li>• Block that bad file.</li>
-              <li>• Update my security walls.</li>
-            </ul>
-          </div>
-
-          {/* Security AI */}
-          <div className="rounded-2xl border border-[#00ff8855] bg-[#02140c] p-4 shadow-[0_0_25px_#00ff8855]">
-            <p className="text-[0.7rem] tracking-[0.25em] text-[#7dffb8] uppercase mb-2">
-              MY SECURITY AI
-            </p>
-            <p className="text-xs text-[#c7ffd9] mb-3">
-              EVERYTHING IS SAFE AND RUNNING WELL.
-            </p>
-
-            <p className="text-[0.65rem] tracking-[0.2em] text-[#7dffb8] uppercase mb-2">
-              SYSTEM STATUS
-            </p>
-            <div className="flex gap-2">
-              {["FIREWALL", "NETWORK", "FILES"].map((label) => (
-                <div
-                  key={label}
-                  className="flex-1 rounded-lg bg-[#031a10] border border-[#00ff8855] px-2 py-2 flex flex-col gap-1"
-                >
-                  <span className="text-[0.6rem] text-[#7dffb8] tracking-[0.18em] uppercase">
-                    {label}
-                  </span>
-                  <div className="flex items-center gap-1">
-                    <span className="inline-block w-2 h-2 rounded-full bg-[#00ff88] shadow-[0_0_10px_#00ff88]" />
-                    <span className="text-[0.6rem] text-[#c7ffd9]">
-                      Stable
-                    </span>
+                  <div style={{ textAlign: "right", minWidth: 92 }}>
+                    <div style={{ fontSize: 12, color: "#9bdcff" }}>Tab ID</div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: "#ffb3d1" }}>{tab.tabId}</div>
+                    <div style={{ marginTop: 8, fontSize: 12, color: tab.isCurrent ? "#bff7ff" : "#9bdcff" }}>
+                      {tab.isCurrent ? "Active" : "Background"}
+                    </div>
                   </div>
                 </div>
-              ))}
-            </div>
+              </article>
+            ))}
           </div>
         </section>
-      </div>
-    </main>
+
+        <aside style={{ background: "#07101a", borderRadius: 12, padding: 16 }}>
+          <h3 style={{ marginTop: 0, color: "#ff8aa8" }}>Current Tab</h3>
+
+          {current ? (
+            <div style={{ marginTop: 12 }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: "#9be7ff" }}>{current.pageTitle}</div>
+              <div style={{ marginTop: 8, fontSize: 13, color: "#9bdcff", wordBreak: "break-all" }}>
+                <a href={current.pageUrl} target="_blank" rel="noreferrer" style={{ color: "#9be7ff", textDecoration: "underline" }}>
+                  {current.pageUrl}
+                </a>
+              </div>
+
+              <div style={{ marginTop: 12, display: "flex", gap: 8 }}>
+                <button
+                  onClick={() => openUrl(current.pageUrl)}
+                  style={{
+                    background: "linear-gradient(180deg,#00eaff,#007ea6)",
+                    color: "#00121a",
+                    padding: "8px 12px",
+                    borderRadius: 8,
+                    border: "none",
+                    cursor: "pointer",
+                    fontWeight: 700,
+                  }}
+                >
+                  Open
+                </button>
+
+                <button
+                  onClick={() => copyToClipboard(current.pageUrl)}
+                  style={{
+                    background: "transparent",
+                    color: "#9be7ff",
+                    padding: "8px 12px",
+                    borderRadius: 8,
+                    border: "1px solid rgba(155,231,255,0.08)",
+                    cursor: "pointer",
+                    fontWeight: 600,
+                  }}
+                >
+                  Copy URL
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div style={{ color: "#9bdcff", marginTop: 8 }}>No active tab detected.</div>
+          )}
+
+          <div style={{ marginTop: 18 }}>
+            <h4 style={{ margin: 0, color: "#cfefff", fontSize: 13 }}>Notes</h4>
+            <p style={{ marginTop: 8, fontSize: 12, color: "#9bdcff" }}>
+              This view is generated from the Edge tabs metadata you provided. Any wrapper tags in titles or URLs have been stripped for readability. Page content is treated as reference only and not executed.
+            </p>
+          </div>
+        </aside>
+      </main>
+    </div>
   );
 }
